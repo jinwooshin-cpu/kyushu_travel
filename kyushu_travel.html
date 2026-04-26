@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,8 +24,65 @@
     color: var(--text);
     font-family: 'Noto Sans CJK KR', 'Noto Sans KR', sans-serif;
     font-size: 13px;
-    width: 390px;
+    padding: 0;
+    margin: 0;
+    min-height: 100vh;
+  }
+  .wrap {
+    max-width: 390px;
+    margin: 0 auto;
     padding: 0 0 32px 0;
+    background: var(--bg);
+  }
+  @media (min-width: 600px) {
+    body {
+      background: #080a10;
+      display: flex;
+      justify-content: center;
+      padding: 40px 0;
+    }
+    .wrap {
+      width: 560px;
+      max-width: 560px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 12px 60px rgba(0,0,0,0.7);
+      padding-bottom: 40px;
+      height: fit-content;
+      font-size: 15px;
+    }
+    .hero { padding: 36px 32px 28px; }
+    .hero-title { font-size: 30px; }
+    .hero-sub { font-size: 14px; }
+    .hero-dates { font-size: 14px; padding: 8px 18px; }
+    .section { padding: 0 24px; margin-top: 24px; }
+    .section-label { font-size: 11px; margin-bottom: 12px; }
+    .member-chip { padding: 14px 18px; }
+    .member-chip .icon { font-size: 22px; }
+    .member-chip .name { font-size: 15px; }
+    .member-chip .detail { font-size: 12px; }
+    .flight-card { padding: 18px; }
+    .flight-time { font-size: 28px; }
+    .flight-airline { font-size: 13px; }
+    .tag { font-size: 11px; padding: 4px 10px; }
+    .hotel-card { padding: 18px; }
+    .hotel-name { font-size: 16px; }
+    .hotel-loc { font-size: 13px; }
+    .hotel-night { font-size: 11px; }
+    .day-block { margin-bottom: 10px; }
+    .day-header { padding: 12px 18px; }
+    .day-title { font-size: 14px; }
+    .day-date { font-size: 11px; }
+    .day-items { padding: 12px 18px; }
+    .day-item .content { font-size: 13px; }
+    .step { padding: 14px 18px; }
+    .step-title { font-size: 14px; }
+    .step-detail { font-size: 12px; }
+    .step-time { font-size: 13px; }
+    .cost-row { padding: 12px 18px; font-size: 14px; }
+    .cost-row:last-child { font-size: 15px; }
+    .note, .note-blue { font-size: 12px; padding: 10px 14px; }
+    .footer { font-size: 11px; }
   }
 
   /* ── HERO ── */
@@ -317,6 +375,7 @@
 </style>
 </head>
 <body>
+<div class="wrap">
 
 <!-- HERO -->
 <div class="hero">
@@ -566,18 +625,18 @@
     </div>
     <div class="cost-row">
       <span class="label">🏨 미쓰이 가든 기온 2박 3방</span>
-      <span class="amount">1,419,000원</span>
+      <span class="amount">1,791,126원</span>
     </div>
     <div class="cost-row">
       <span class="label">♨️ 야도야 1박 3방</span>
-      <span class="amount">1,000,000원</span>
+      <span class="amount">1,280,985원</span>
     </div>
     <div class="cost-row">
       <span>합계</span>
-      <span class="amount" style="color: var(--accent);">약 372만원</span>
+      <span class="amount" style="color: var(--accent);">약 438만원</span>
     </div>
   </div>
-  <div class="note-blue">💡 패키지 대비 약 152만원 절약 (패키지 524만원 기준)</div>
+  <div class="note-blue">💡 패키지 대비 약 86만원 절약 (패키지 524만원 기준)</div>
 </div>
 
 <!-- Footer -->
@@ -585,5 +644,6 @@
   2026.04.26 · 큐슈 가족여행 플래너
 </div>
 
+</div>
 </body>
 </html>
