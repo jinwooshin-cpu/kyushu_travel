@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --card: #1e2130;
+    --border: #2a2e40;
+    --accent: #5b8dee;
+    --accent2: #f5a623;
+    --green: #34c47c;
+    --red: #e05c5c;
+    --text: #e8eaf6;
+    --sub: #8b90a7;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans CJK KR', 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    width: 390px;
+    padding: 0 0 32px 0;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(160deg, #1a2a4a 0%, #0f1117 60%);
+    padding: 28px 20px 22px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '🇯🇵';
+    position: absolute;
+    right: 16px; top: 16px;
+    font-size: 52px;
+    opacity: 0.12;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .hero-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .hero-sub {
+    font-size: 12px;
+    color: var(--sub);
+    margin-bottom: 14px;
+  }
+  .hero-dates {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(91,141,238,0.15);
+    border: 1px solid rgba(91,141,238,0.3);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* ── SECTION ── */
+  .section { padding: 0 16px; margin-top: 20px; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--sub);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── MEMBER CHIPS ── */
+  .member-chips {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .member-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .member-chip .icon { font-size: 18px; flex-shrink: 0; }
+  .member-chip .name { font-weight: 700; font-size: 13px; }
+  .member-chip .detail { font-size: 11px; color: var(--sub); margin-top: 1px; }
+  .member-chip.highlight { border-color: rgba(91,141,238,0.4); background: rgba(91,141,238,0.08); }
+
+  /* ── FLIGHT CARDS ── */
+  .flight-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+  .flight-card:last-child { margin-bottom: 0; }
+  .flight-direction {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .flight-direction.out { color: var(--green); }
+  .flight-direction.in { color: var(--accent2); }
+  .flight-airline { font-size: 11px; color: var(--sub); margin-bottom: 8px; }
+  .flight-time-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .flight-time { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .flight-arrow { color: var(--sub); font-size: 14px; }
+  .flight-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(91,141,238,0.15);
+    color: var(--accent);
+  }
+  .tag.green { background: rgba(52,196,124,0.15); color: var(--green); }
+  .tag.orange { background: rgba(245,166,35,0.15); color: var(--accent2); }
+
+  /* ── HOTEL CARDS ── */
+  .hotel-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 8px;
+  }
+  .hotel-night {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--sub);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .hotel-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .hotel-loc { font-size: 11px; color: var(--sub); margin-bottom: 8px; }
+  .hotel-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* ── ITINERARY ── */
+  .day-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgba(91,141,238,0.1);
+    border-bottom: 1px solid var(--border);
+  }
+  .day-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .day-title { font-size: 12px; font-weight: 600; }
+  .day-date { font-size: 10px; color: var(--sub); margin-left: auto; }
+  .day-items { padding: 10px 14px; }
+  .day-item {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+  .day-item:last-child { border-bottom: none; }
+  .day-item .em { font-size: 15px; flex-shrink: 0; }
+  .day-item .content { font-size: 12px; line-height: 1.55; color: var(--text); }
+  .day-item .content .highlight { color: var(--accent); font-weight: 600; }
+
+  /* ── RETURN PLAN ── */
+  .step-list { display: flex; flex-direction: column; gap: 6px; }
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-body {}
+  .step-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+  .step-detail { font-size: 11px; color: var(--sub); line-height: 1.6; }
+  .step-time { font-size: 12px; font-weight: 700; color: var(--accent); margin-top: 4px; }
+
+  /* ── COST TABLE ── */
+  .cost-table {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .cost-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .cost-row:last-child {
+    border-bottom: none;
+    font-weight: 700;
+    font-size: 13px;
+    background: rgba(91,141,238,0.08);
+  }
+  .cost-row .label { color: var(--sub); }
+  .cost-row .amount { font-weight: 600; font-family: monospace; }
+
+  /* ── NOTE ── */
+  .note {
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #f5c26b;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .note-blue {
+    background: rgba(91,141,238,0.1);
+    border: 1px solid rgba(91,141,238,0.25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: #8ab4f8;
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 6px 0;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    font-size: 10px;
+    color: var(--sub);
+    padding: 20px 16px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">🗾 Family Trip</div>
+  <div class="hero-title">큐슈 가족여행</div>
+  <div class="hero-sub">후쿠오카 · 유후인 · 야나가와 · 5인</div>
+  <div class="hero-dates">
+    <span>📅</span>
+    <span>2026년 5월 18일 — 21일 · 3박 4일</span>
+  </div>
+</div>
+
+<!-- 가족 구성 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 가족 구성</div>
+  <div class="member-chips">
+    <div class="member-chip">
+      <span class="icon">🏠</span>
+      <div>
+        <div class="name">진우네</div>
+        <div class="detail">부모님 2인 · 나주 출발</div>
+      </div>
+    </div>
+    <div class="member-chip">
+      <span class="icon">👴👵</span>
+      <div>
+        <div class="name">선우네 (큰집)</div>
+        <div class="detail">큰아버지 + 큰어머니 2인 · 나주 출발</div>
+      </div>
+    </div>
+    <div class="member-chip">
+      <span class="icon">👩</span>
+      <div>
+        <div class="name">막내고모</div>
+        <div class="detail">1인 · 서울 문정동 출발</div>
+      </div>
+    </div>
+  </div>
+  <div class="note-blue" style="margin-top:8px;">✈️ 귀국일 (5/21): 선우 합류 → 부모님과 함께 광명역 → 나주 이동</div>
+</div>
+
+<!-- 항공편 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 항공편</div>
+  <div class="flight-card">
+    <div class="flight-direction out">→ 출국</div>
+    <div class="flight-airline">이스타항공 · 5월 18일 (월)</div>
+    <div class="flight-time-row">
+      <span class="flight-time">12:30</span>
+      <span class="flight-arrow">→</span>
+      <span class="flight-time">13:50</span>
+    </div>
+    <div class="flight-meta">
+      <span class="tag">ICN → FUK</span>
+      <span class="tag green">직항 · 1h 20m</span>
+    </div>
+  </div>
+  <div class="flight-card">
+    <div class="flight-direction in">← 귀국</div>
+    <div class="flight-airline">티웨이항공 · 5월 21일 (목)</div>
+    <div class="flight-time-row">
+      <span class="flight-time">12:30</span>
+      <span class="flight-arrow">→</span>
+      <span class="flight-time">14:00</span>
+    </div>
+    <div class="flight-meta">
+      <span class="tag">FUK → ICN</span>
+      <span class="tag orange">직항 · 1h 30m</span>
+    </div>
+  </div>
+  <div class="note-blue">💳 항공권 1인 ₩194,700 · 3인 기준 ₩584,100</div>
+</div>
+
+<!-- 숙소 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 숙소</div>
+  <div class="hotel-card">
+    <div class="hotel-night">D1 · D2 — 5/18~5/20 · 2박</div>
+    <div class="hotel-name">미쓰이 가든 호텔 후쿠오카 기온</div>
+    <div class="hotel-loc">📍 하카타역 도보 5분 · 후쿠오카</div>
+    <div class="hotel-features">
+      <span class="tag">루프탑 온천</span>
+      <span class="tag green">조식 포함</span>
+      <span class="tag">3방 예약</span>
+    </div>
+  </div>
+  <div class="hotel-card">
+    <div class="hotel-night">D3 — 5/20~5/21 · 1박</div>
+    <div class="hotel-name">야와라기노사토 야도야</div>
+    <div class="hotel-loc">♨️ 온천 료칸 · 유후인</div>
+    <div class="hotel-features">
+      <span class="tag orange">석식+조식 포함</span>
+      <span class="tag">가족탕 보유</span>
+      <span class="tag">3방 예약</span>
+    </div>
+  </div>
+</div>
+
+<!-- 여행 일정 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 여행 일정</div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-badge">D1</span>
+      <span class="day-title">후쿠오카 도착 + 나카스</span>
+      <span class="day-date">5/18 월</span>
+    </div>
+    <div class="day-items">
+      <div class="day-item">
+        <span class="em">✈️</span>
+        <div class="content">인천 <span class="highlight">12:30</span> 출발 → 후쿠오카 <span class="highlight">13:50</span> 도착</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🏨</span>
+        <div class="content">미쓰이 가든 호텔 기온 체크인</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🚢</span>
+        <div class="content">나카스강 유람선 <span class="highlight">저녁 7시</span></div>
+      </div>
+      <div class="day-item">
+        <span class="em">🍜</span>
+        <div class="content">하카타 라멘 & 나카스 야타이 저녁</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-badge">D2</span>
+      <span class="day-title">다자이후 → 유후인 버스투어</span>
+      <span class="day-date">5/19 화</span>
+    </div>
+    <div class="day-items">
+      <div class="day-item">
+        <span class="em">🚌</span>
+        <div class="content">하카타역 출발 버스투어</div>
+      </div>
+      <div class="day-item">
+        <span class="em">⛩️</span>
+        <div class="content">다자이후 텐만구 참배 + 우메가에모치</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🔥</span>
+        <div class="content">가마도지옥 온천 구경</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🌊</span>
+        <div class="content">긴린코 호수 산책</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🌸</span>
+        <div class="content">유후인 플로럴 빌리지 → 후쿠오카 복귀</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-badge">D3</span>
+      <span class="day-title">야나가와 뱃놀이 → 유후인 료칸</span>
+      <span class="day-date">5/20 수</span>
+    </div>
+    <div class="day-items">
+      <div class="day-item">
+        <span class="em">🏨</span>
+        <div class="content">미쓰이 가든 체크아웃</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🚣</span>
+        <div class="content">야나가와 뱃놀이 (도보 곤돌라 투어)</div>
+      </div>
+      <div class="day-item">
+        <span class="em">♨️</span>
+        <div class="content">야와라기노사토 야도야 체크인 · 가족탕 예약</div>
+      </div>
+      <div class="day-item">
+        <span class="em">🍱</span>
+        <div class="content">료칸 석식 (가이세키 코스)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-block">
+    <div class="day-header">
+      <span class="day-badge">D4</span>
+      <span class="day-title">귀국</span>
+      <span class="day-date">5/21 목</span>
+    </div>
+    <div class="day-items">
+      <div class="day-item">
+        <span class="em">🌅</span>
+        <div class="content">야도야 조식 후 체크아웃</div>
+      </div>
+      <div class="day-item">
+        <span class="em">✈️</span>
+        <div class="content">후쿠오카 <span class="highlight">12:30</span> 출발 → 인천 <span class="highlight">14:00</span> 도착 (티웨이)</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 귀국 교통 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 귀국 교통편 (5월 21일)</div>
+  <div class="note" style="margin-bottom:10px;">👨‍👩‍👧 나주행 (5인): 부모님 + 선우 + 큰아버지 + 큰어머니<br>✈️ 막내고모는 서울 문정동 방면 별도 귀가</div>
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">인천공항 T1 도착</div>
+        <div class="step-detail">티웨이 FUK→ICN · 입국 수속 약 40분</div>
+        <div class="step-time">14:00 도착 예정</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">6770번 리무진버스</div>
+        <div class="step-detail">T1 1층 8번 게이트 앞 · ₩16,000/인 × 5인<br>인천공항 T1 → 광명KTX역</div>
+        <div class="step-time">15:15 출발 → 16:05 도착</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">KTX-산천 427</div>
+        <div class="step-detail">광명 → 나주 · 일반실 ₩46,300/인 × 5인</div>
+        <div class="step-time">17:00 출발 → 18:53 도착</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 예상 비용 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 예상 비용 (교통 + 숙박)</div>
+  <div class="cost-table">
+    <div class="cost-row">
+      <span class="label">✈️ 항공권 (5명)</span>
+      <span class="amount">1,071,500원</span>
+    </div>
+    <div class="cost-row">
+      <span class="label">🚄 KTX 나주→광명 (5명)</span>
+      <span class="amount">231,500원</span>
+    </div>
+    <div class="cost-row">
+      <span class="label">🏨 미쓰이 가든 기온 2박 3방</span>
+      <span class="amount">1,419,000원</span>
+    </div>
+    <div class="cost-row">
+      <span class="label">♨️ 야도야 1박 3방</span>
+      <span class="amount">1,000,000원</span>
+    </div>
+    <div class="cost-row">
+      <span>합계</span>
+      <span class="amount" style="color: var(--accent);">약 372만원</span>
+    </div>
+  </div>
+  <div class="note-blue">💡 패키지 대비 약 152만원 절약 (패키지 524만원 기준)</div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  2026.04.26 · 큐슈 가족여행 플래너
+</div>
+
+</body>
+</html>
