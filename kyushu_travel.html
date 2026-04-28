@@ -373,6 +373,8 @@
     margin-top: 24px;
   }
 </style>
+
+
 </head>
 <body>
 <div class="wrap">
@@ -446,7 +448,7 @@
       <span class="tag orange">직항 · 1h 30m</span>
     </div>
   </div>
-  <div class="note-blue">💳 항공권 3인 총 ₩732,900 · 1인당 ₩244,300</div>
+  <div class="note-blue">💳 항공권 5인 총 ₩1,019,500 · 1인당 ₩203,900</div>
 </div>
 
 <!-- 숙소 -->
@@ -454,7 +456,7 @@
   <div class="section-label"><span class="dot"></span> 숙소</div>
   <div class="hotel-card">
     <div class="hotel-night">D1 · D2 — 5/18~5/20 · 2박</div>
-    <div class="hotel-name">미쓰이 가든 호텔 후쿠오카 기온</div>
+    <div class="hotel-name">호텔 몬테레이 후쿠오카</div>
     <div class="hotel-loc">📍 하카타역 도보 5분 · 후쿠오카</div>
     <div class="hotel-features">
       <span class="tag">루프탑 온천</span>
@@ -478,125 +480,15 @@
 <!-- 일정 지도 -->
 <div class="section">
   <div class="section-label"><span class="dot"></span> 일정별 동선 지도</div>
-
-  <!-- 탭 -->
   <div style="display:flex; gap:6px; margin-bottom:10px;">
-    <button onclick="showMap('d1')" id="tab-d1" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:white; font-size:11px; font-weight:700; cursor:pointer;">D1 도착</button>
-    <button onclick="showMap('d2')" id="tab-d2" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--sub); font-size:11px; font-weight:700; cursor:pointer;">D2 투어</button>
-    <button onclick="showMap('d3')" id="tab-d3" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--sub); font-size:11px; font-weight:700; cursor:pointer;">D3 야나가와</button>
-    <button onclick="showMap('d4')" id="tab-d4" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--sub); font-size:11px; font-weight:700; cursor:pointer;">D4 귀국</button>
+    <button id="tab-d1" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #5b8dee; background:#5b8dee; color:white; font-size:11px; font-weight:700; cursor:pointer;">D1 도착</button>
+    <button id="tab-d2" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D2 투어</button>
+    <button id="tab-d3" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D3 야나가와</button>
+    <button id="tab-d4" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D4 귀국</button>
   </div>
-
-  <!-- 지도 컨테이너 -->
-  <div id="map" style="height:320px; border-radius:12px; overflow:hidden; border:1px solid var(--border);"></div>
-
-  <!-- 범례 -->
-  <div id="map-legend" style="margin-top:8px; font-size:11px; color:var(--sub); line-height:1.8;"></div>
+  <div id="map" style="height:320px; border-radius:12px; overflow:hidden; border:1px solid #2a2e40;"></div>
+  <div id="map-legend" style="margin-top:8px; font-size:11px; color:#8b90a7; line-height:1.8;"></div>
 </div>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-  window.addEventListener('load', function() {
-  var map = L.map('map', {zoomControl:true, scrollWheelZoom:false});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom:18
-  }).addTo(map);
-
-  var currentLayers = [];
-
-  function clearMap() {
-    currentLayers.forEach(function(l){ map.removeLayer(l); });
-    currentLayers = [];
-  }
-
-  function addMarker(lat, lng, label, color, num) {
-    var icon = L.divIcon({
-      className:'',
-      html: '<div style="background:'+color+';color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);">'+num+'</div>',
-      iconSize:[26,26], iconAnchor:[13,13]
-    });
-    var m = L.marker([lat,lng],{icon:icon}).addTo(map).bindPopup('<b>'+label+'</b>');
-    currentLayers.push(m);
-    return m;
-  }
-
-  function addLine(coords, color) {
-    var l = L.polyline(coords, {color:color, weight:3, opacity:0.8, dashArray:'6,4'}).addTo(map);
-    currentLayers.push(l);
-  }
-
-  var days = {
-    d1: {
-      title: 'D1 · 5/18 · 후쿠오카 도착',
-      color: '#5b8dee',
-      spots: [
-        [33.5902, 130.4519, '✈️ 후쿠오카 공항'],
-        [33.5885, 130.4197, '🏨 미쓰이 가든 호텔 기온'],
-        [33.5894, 130.4006, '🚢 나카스강 야타이'],
-      ],
-      legend: '✈️ 공항 도착 (16:00) → 🏨 미쓰이 가든 체크인 → 🚢 나카스 야타이 저녁'
-    },
-    d2: {
-      title: 'D2 · 5/19 · 다자이후 + 유후인 버스투어',
-      color: '#34c47c',
-      spots: [
-        [33.5885, 130.4197, '🏨 미쓰이 가든 (출발)'],
-        [33.5215, 130.5340, '⛩️ 다자이후 텐만구'],
-        [33.2896, 131.0581, '🔥 가마도지옥'],
-        [33.2848, 131.0578, '🌊 긴린코 호수'],
-        [33.2892, 131.0596, '🌸 유후인 플로럴빌리지'],
-        [33.5885, 130.4197, '🏨 미쓰이 가든 (복귀)'],
-      ],
-      legend: '🚌 버스투어 · 다자이후 → 벳부지옥 → 유후인 → 후쿠오카 복귀'
-    },
-    d3: {
-      title: 'D3 · 5/20 · 야나가와 + 유후인 램프 노 야도',
-      color: '#f5a623',
-      spots: [
-        [33.5885, 130.4197, '🏨 미쓰이 가든 (체크아웃)'],
-        [33.1673, 130.4018, '🚣 야나가와 뱃놀이'],
-        [33.4767, 130.5258, '♨️ 유후인 램프 노 야도 (체크인)'],
-      ],
-      legend: '🏨 체크아웃 → 🚣 야나가와 뱃놀이 → ♨️ 유후인 램프 노 야도 료칸'
-    },
-    d4: {
-      title: 'D4 · 5/21 · 귀국',
-      color: '#e05c5c',
-      spots: [
-        [33.4767, 130.5258, '♨️ 유후인 램프 노 야도 (출발)'],
-        [33.5902, 130.4519, '✈️ 후쿠오카 공항 (11:30)'],
-      ],
-      legend: '♨️ 조식 후 체크아웃 → ✈️ 후쿠오카 11:30 출발 → 인천 T1 13:00 도착'
-    }
-  };
-
-  function showMap(dayKey) {
-    clearMap();
-    // 탭 스타일
-    ['d1','d2','d3','d4'].forEach(function(k){
-      var btn = document.getElementById('tab-'+k);
-      if(k===dayKey){
-        btn.style.background='var(--accent)'; btn.style.color='white'; btn.style.borderColor='var(--accent)';
-      } else {
-        btn.style.background='var(--card)'; btn.style.color='var(--sub)'; btn.style.borderColor='var(--border)';
-      }
-    });
-
-    var d = days[dayKey];
-    var coords = [];
-    d.spots.forEach(function(s, i){
-      addMarker(s[0], s[1], s[2], d.color, i+1);
-      coords.push([s[0], s[1]]);
-    });
-    if(coords.length > 1) addLine(coords, d.color);
-    map.fitBounds(coords, {padding:[30,30]});
-    document.getElementById('map-legend').innerHTML = '<span style="color:'+d.color+'; font-weight:600;">'+d.title+'</span><br>' + d.legend;
-  }
-
-  showMap('d1');
-  }); // end window.load
-</script>
 
 <!-- 여행 일정 -->
 <div class="section">
@@ -615,11 +507,11 @@
       </div>
       <div class="day-item">
         <span class="em">🏨</span>
-        <div class="content">미쓰이 가든 호텔 기온 체크인</div>
+        <div class="content">🚇 지하철 11분 → 호텔 몬테레이 후쿠오카 체크인</div>
       </div>
       <div class="day-item">
         <span class="em">🚢</span>
-        <div class="content">나카스강 유람선 <span class="highlight">저녁 7시</span></div>
+        <div class="content">🚶 도보 15분 → 나카스강 유람선 <span class="highlight">저녁 7시</span></div>
       </div>
       <div class="day-item">
         <span class="em">🍜</span>
@@ -637,23 +529,23 @@
     <div class="day-items">
       <div class="day-item">
         <span class="em">🚌</span>
-        <div class="content">하카타역 출발 버스투어</div>
+        <div class="content">하카타역 출발 버스투어 🚌</div>
       </div>
       <div class="day-item">
         <span class="em">⛩️</span>
-        <div class="content">다자이후 텐만구 참배 + 우메가에모치</div>
+        <div class="content">🚌 버스 25분 → 다자이후 텐만구 참배 + 우메가에모치</div>
       </div>
       <div class="day-item">
         <span class="em">🔥</span>
-        <div class="content">가마도지옥 온천 구경</div>
+        <div class="content">🚌 버스 1시간 30분 → 가마도지옥 온천 구경</div>
       </div>
       <div class="day-item">
         <span class="em">🌊</span>
-        <div class="content">긴린코 호수 산책</div>
+        <div class="content">🚌 버스 10분 → 긴린코 호수 산책</div>
       </div>
       <div class="day-item">
         <span class="em">🌸</span>
-        <div class="content">유후인 플로럴 빌리지 → 후쿠오카 복귀</div>
+        <div class="content">🚌 유후인 플로럴 빌리지 → 버스 2시간 → 후쿠오카 복귀</div>
       </div>
     </div>
   </div>
@@ -667,11 +559,11 @@
     <div class="day-items">
       <div class="day-item">
         <span class="em">🏨</span>
-        <div class="content">미쓰이 가든 체크아웃</div>
+        <div class="content">호텔 몬테레이 체크아웃</div>
       </div>
       <div class="day-item">
         <span class="em">🚣</span>
-        <div class="content">야나가와 뱃놀이 (도보 곤돌라 투어)</div>
+        <div class="content">🚃 전철 40분 → 야나가와 뱃놀이 (1시간 30분)</div>
       </div>
       <div class="day-item">
         <span class="em">♨️</span>
@@ -697,7 +589,7 @@
       </div>
       <div class="day-item">
         <span class="em">✈️</span>
-        <div class="content">후쿠오카 <span class="highlight">11:30</span> 출발 → 인천 T1 <span class="highlight">13:00</span> 도착 (이스타항공)</div>
+        <div class="content">🚌 버스 1시간 30분 → 후쿠오카 공항<br>✈️ <span class="highlight">11:30</span> 출발 → 인천 T1 <span class="highlight">13:00</span> 도착 (이스타항공)</div>
       </div>
     </div>
   </div>
@@ -740,58 +632,122 @@
   <div class="section-label"><span class="dot"></span> 예상 비용 (교통 + 숙박)</div>
   <div class="cost-table">
     <div class="cost-row">
-      <span class="label">✈️ 항공권 (5명)</span>
+      <span class="label">✈️ 항공권 5인</span>
       <span class="amount">1,019,500원</span>
     </div>
     <div class="cost-row">
-      <span class="label">🚄 KTX 나주→광명 (5명)</span>
-      <span class="amount">231,500원</span>
+      <span class="label">🚄 KTX 4인 왕복</span>
+      <span class="amount">259,200원</span>
     </div>
     <div class="cost-row">
-      <span class="label">🏨 미쓰이 가든 기온 2박 3방</span>
-      <span class="amount">1,745,130원</span>
+      <span class="label">🏨 호텔 몬테레이 2박 (형 결제)</span>
+      <span class="amount">919,143원</span>
     </div>
-    
+    <div class="cost-row">
+      <span class="label">♨️ 유후인 램프 노 야도 1박</span>
+      <span class="amount">914,760원</span>
+    </div>
     <div class="cost-row">
       <span>합계</span>
-      <span class="amount" style="color: var(--accent);">약 394만원</span>
+      <span class="amount" style="color: var(--accent);">₩3,112,603</span>
     </div>
   </div>
-  <div class="note-blue">💡 패키지 대비 약 86만원 절약 (패키지 524만원 기준)</div>
+</div>
+
+
+<!-- 가족별 총비용 -->
+<div class="section">
+  <div class="section-label"><span class="dot"></span> 가족별 총비용 (5인 균등)</div>
+
+  <!-- 진우네 -->
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span style="font-size:13px; font-weight:700;">🏠 진우네 (부모님 2인)</span>
+      <span style="font-size:18px; font-weight:700; color:var(--accent);">₩1,270,962</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>✈️ 항공 2인</span><span>₩407,800</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🏨 호텔 몬테레이 2인</span><span>₩367,658</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>♨️ 유후인 2인</span><span>₩365,904</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🚄 KTX 2인</span><span>₩129,600</span></div>
+    <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:11px; color:var(--green);">✅ 진우가 직접 부담</div>
+  </div>
+
+  <!-- 선우네 -->
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span style="font-size:13px; font-weight:700;">👴👵 선우네 (큰집 2인)</span>
+      <span style="font-size:18px; font-weight:700; color:var(--accent);">₩1,270,962</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>✈️ 항공 2인</span><span>₩407,800</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🏨 호텔 몬테레이 2인</span><span>₩367,658</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>♨️ 유후인 2인</span><span>₩365,904</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🚄 KTX 2인</span><span>₩129,600</span></div>
+    <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:11px; color:var(--accent2);">→ 진우한테 ₩537,400 · 형(선우)한테 ₩367,658<br>유후인↔호텔 퉁침 (₩365,904≈₩367,658)</div>
+  </div>
+
+  <!-- 고모 -->
+  <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <span style="font-size:13px; font-weight:700;">👩 고모 (1인)</span>
+      <span style="font-size:18px; font-weight:700; color:var(--accent);">₩570,681</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>✈️ 항공 1인</span><span>₩203,900</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🏨 호텔 몬테레이 1인</span><span>₩183,829</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>♨️ 유후인 1인</span><span>₩182,952</span></div>
+    <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--sub); padding:3px 0;"><span>🚄 KTX</span><span>서울 출발 (별도)</span></div>
+    <div style="margin-top:8px; padding-top:8px; border-top:1px solid var(--border); font-size:11px; color:var(--accent2);">→ 진우한테 ₩386,852 · 형(선우)한테 ₩183,829</div>
+  </div>
+
+  <!-- 총합 -->
+  <div style="background:rgba(91,141,238,0.08); border:1px solid rgba(91,141,238,0.25); border-radius:var(--radius); padding:12px 16px; margin-top:8px;">
+    <div style="display:flex; justify-content:space-between; font-size:13px; font-weight:700;">
+      <span>총 여행 경비</span>
+      <span style="color:var(--accent);">₩3,112,605</span>
+    </div>
+  </div>
 </div>
 
 <!-- 비용 정산 -->
 <div class="section">
-  <div class="section-label"><span class="dot"></span> 비용 정산</div>
+  <div class="section-label"><span class="dot"></span> 비용 정산 (5인 균등)</div>
 
   <!-- 선우네 -->
   <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px;">
-    <div style="font-size:11px; color:var(--sub); margin-bottom:6px; font-weight:600;">선우네 (큰집)</div>
+    <div style="font-size:11px; color:var(--sub); margin-bottom:6px; font-weight:600;">선우네 (큰집 2인)</div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+      <span style="font-size:12px; color:var(--sub);">진우한테 · 항공 ₩407,800 + KTX ₩129,600</span>
+    </div>
     <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span style="font-size:12px; color:var(--sub);">진우한테 입금</span>
+      <span style="font-size:11px; color:var(--sub);">호텔↔유후인 퉁침</span>
       <span style="font-size:20px; font-weight:700; color:var(--green);">₩537,400</span>
     </div>
   </div>
 
   <!-- 고모 -->
   <div style="background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:14px 16px; margin-bottom:8px;">
-    <div style="font-size:11px; color:var(--sub); margin-bottom:8px; font-weight:600;">고모</div>
+    <div style="font-size:11px; color:var(--sub); margin-bottom:8px; font-weight:600;">고모 (1인)</div>
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-      <span style="font-size:12px; color:var(--sub);">진우한테 입금</span>
-      <span style="font-size:18px; font-weight:700; color:var(--green);">₩508,820</span>
+      <span style="font-size:12px; color:var(--sub);">진우한테 · 항공 ₩203,900 + 유후인 ₩182,952</span>
+      <span style="font-size:18px; font-weight:700; color:var(--green);">₩386,852</span>
     </div>
     <div style="display:flex; justify-content:space-between; align-items:center; padding-top:6px; border-top:1px solid var(--border);">
-      <span style="font-size:12px; color:var(--sub);">형(선우)한테 입금</span>
-      <span style="font-size:18px; font-weight:700; color:var(--accent2);">₩306,381</span>
+      <span style="font-size:12px; color:var(--sub);">형(선우)한테 · 호텔 몬테레이 1/5</span>
+      <span style="font-size:18px; font-weight:700; color:var(--accent2);">₩183,829</span>
     </div>
   </div>
 
   <!-- 진우 실부담 -->
   <div style="background:rgba(52,196,124,0.08); border:1px solid rgba(52,196,124,0.3); border-radius:var(--radius); padding:14px 16px;">
     <div style="font-size:11px; color:var(--sub); margin-bottom:6px; font-weight:600;">진우 실부담</div>
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <span style="font-size:12px; color:var(--sub);">부모님 항공 + 유후인 + KTX</span>
-      <span style="font-size:20px; font-weight:700; color:var(--green);">₩1,147,240</span>
+    <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+      <span style="color:var(--sub);">선결제 (항공+유후인+KTX)</span><span>₩2,193,460</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:12px; padding:4px 0;">
+      <span style="color:var(--sub);">수금</span><span>- ₩924,252</span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; padding-top:8px; border-top:1px solid rgba(52,196,124,0.3);">
+      <span style="font-size:12px; color:var(--sub);">부모님 2인 항공 + 유후인 + KTX</span>
+      <span style="font-size:20px; font-weight:700; color:var(--green);">₩1,269,208</span>
     </div>
   </div>
 
@@ -802,5 +758,76 @@
 </div>
 
 </div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script>
+(function() {
+  var script = document.createElement('script');
+  script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+  script.onload = function() {
+    var map = L.map('map', {zoomControl:true, scrollWheelZoom:false});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution:'&copy; OpenStreetMap &copy; CARTO', maxZoom:18
+    }).addTo(map);
+
+    var layers = [];
+    function clearMap() { layers.forEach(function(l){ map.removeLayer(l); }); layers=[]; }
+
+    function addMarker(lat,lng,label,color,num) {
+      var icon = L.divIcon({
+        className:'',
+        html:'<div style="background:'+color+';color:white;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.4);">'+num+'</div>',
+        iconSize:[26,26],iconAnchor:[13,13]
+      });
+      var m = L.marker([lat,lng],{icon:icon}).addTo(map).bindPopup('<b>'+label+'</b>');
+      layers.push(m); return m;
+    }
+
+    function addLine(coords,color) {
+      var l = L.polyline(coords,{color:color,weight:3,opacity:0.8,dashArray:'6,4'}).addTo(map);
+      layers.push(l);
+    }
+
+    var days = {
+      d1:{color:'#5b8dee',title:'D1 · 5/18 · 후쿠오카 도착',
+        spots:[[33.5902,130.4519,'✈️ 후쿠오카 공항'],[33.5885,130.4197,'🏨 호텔 몬테레이'],[33.5894,130.4006,'🚢 나카스 야타이']],
+        legend:'✈️ 공항 도착(16:00) →🚇 지하철 11분→ 🏨 호텔 몬테레이 체크인 →🚶 도보 15분→ 🚢 나카스 야타이 저녁'},
+      d2:{color:'#34c47c',title:'D2 · 5/19 · 다자이후 + 유후인',
+        spots:[[33.5885,130.4197,'🏨 호텔 몬테레이(출발)'],[33.5215,130.5340,'⛩️ 다자이후 텐만구'],[33.2896,131.0581,'🔥 가마도지옥'],[33.2848,131.0578,'🌊 긴린코 호수'],[33.2892,131.0596,'🌸 유후인 플로럴빌리지'],[33.5885,130.4197,'🏨 호텔 몬테레이(복귀)']],
+        legend:'🚌 호텔 출발 →버스 25분→ ⛩️ 다자이후 →버스 1시간 30분→ 🔥 벳부지옥 →도보 10분→ 🌊 긴린코 →도보 5분→ 🌸 유후인 →버스 2시간→ 🏨 호텔 복귀'},
+      d3:{color:'#f5a623',title:'D3 · 5/20 · 야나가와 + 유후인 료칸',
+        spots:[[33.5885,130.4197,'🏨 호텔 몬테레이(체크아웃)'],[33.1673,130.4018,'🚣 야나가와 뱃놀이'],[33.2892,131.0596,'♨️ 유후인 램프 노 야도']],
+        legend:'🏨 체크아웃 →전철 40분→ 🚣 야나가와 뱃놀이(1시간 30분) →버스 2시간→ ♨️ 유후인 램프 노 야도'},
+      d4:{color:'#e05c5c',title:'D4 · 5/21 · 귀국',
+        spots:[[33.2892,131.0596,'♨️ 유후인 료칸(출발)'],[33.5902,130.4519,'✈️ 후쿠오카 공항(11:30)']],
+        legend:'♨️ 조식 후 체크아웃 →버스 1시간 30분→ ✈️ 후쿠오카 공항 11:30 출발 →비행 1시간 30분→ 인천 T1 13:00 도착'}
+    };
+
+    function showMap(key) {
+      clearMap();
+      ['d1','d2','d3','d4'].forEach(function(k){
+        var btn = document.getElementById('tab-'+k);
+        if(k===key){ btn.style.background='#5b8dee'; btn.style.color='white'; btn.style.borderColor='#5b8dee'; }
+        else { btn.style.background='#1e2130'; btn.style.color='#8b90a7'; btn.style.borderColor='#2a2e40'; }
+      });
+      var d = days[key];
+      var coords = [];
+      d.spots.forEach(function(s,i){ addMarker(s[0],s[1],s[2],d.color,i+1); coords.push([s[0],s[1]]); });
+      if(coords.length>1) addLine(coords,d.color);
+      map.fitBounds(coords,{padding:[30,30]});
+      document.getElementById('map-legend').innerHTML='<span style="color:'+d.color+';font-weight:600;">'+d.title+'</span><br>'+d.legend;
+    }
+
+    document.getElementById('tab-d1').addEventListener('click',function(){ showMap('d1'); });
+    document.getElementById('tab-d2').addEventListener('click',function(){ showMap('d2'); });
+    document.getElementById('tab-d3').addEventListener('click',function(){ showMap('d3'); });
+    document.getElementById('tab-d4').addEventListener('click',function(){ showMap('d4'); });
+
+    showMap('d1');
+  };
+  document.head.appendChild(script);
+})();
+</script>
+
 </body>
 </html>
