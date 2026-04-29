@@ -477,119 +477,43 @@
 </div>
 
 
-<!-- 일정 지도 -->
+
+
+<!-- 출국 교통 -->
 <div class="section">
-  <div class="section-label"><span class="dot"></span> 일정별 동선 지도</div>
-  <div style="display:flex; gap:6px; margin-bottom:10px;">
-    <button id="tab-d1" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #5b8dee; background:#5b8dee; color:white; font-size:11px; font-weight:700; cursor:pointer;">D1 도착</button>
-    <button id="tab-d2" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D2 투어</button>
-    <button id="tab-d3" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D3 야나가와</button>
-    <button id="tab-d4" style="flex:1; padding:8px 4px; border-radius:8px; border:1px solid #2a2e40; background:#1e2130; color:#8b90a7; font-size:11px; font-weight:700; cursor:pointer;">D4 귀국</button>
-  </div>
-  <div id="map" style="height:320px; border-radius:12px; overflow:hidden; border:1px solid #2a2e40;"></div>
-  <div id="map-legend" style="margin-top:8px; font-size:11px; color:#8b90a7; line-height:1.8;"></div>
-</div>
-
-<!-- 여행 일정 -->
-<div class="section">
-  <div class="section-label"><span class="dot"></span> 여행 일정</div>
-
-  <div class="day-block">
-    <div class="day-header">
-      <span class="day-badge">D1</span>
-      <span class="day-title">후쿠오카 도착 + 나카스</span>
-      <span class="day-date">5/18 월</span>
-    </div>
-    <div class="day-items">
-      <div class="day-item">
-        <span class="em">✈️</span>
-        <div class="content">인천 T2 <span class="highlight">14:25</span> 출발 → 후쿠오카 <span class="highlight">16:00</span> 도착 (에어서울)<br><span style="font-size:11px; color:var(--accent);">👋 선우가 후쿠오카 공항에서 마중</span></div>
-      </div>
-      <div class="day-item">
-        <span class="em">🏨</span>
-        <div class="content">🚇 지하철 11분 → 호텔 몬테레이 후쿠오카 체크인</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🚢</span>
-        <div class="content">🚶 도보 15분 → 나카스강 유람선 <span class="highlight">저녁 7시</span></div>
-      </div>
-      <div class="day-item">
-        <span class="em">🍜</span>
-        <div class="content">하카타 라멘 & 나카스 야타이 저녁</div>
+  <div class="section-label"><span class="dot"></span> 출국 교통편 (5월 18일)</div>
+  <div style="font-size:9.5pt; color:var(--sub); margin-bottom:10px;">나주 출발 → 인천공항 T1</div>
+  <div class="step-list">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">KTX 나주역 출발</div>
+        <div class="step-detail">나주역 → 광명역</div>
+        <div class="step-time">08:37 출발 → 10:41 도착</div>
       </div>
     </div>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header">
-      <span class="day-badge">D2</span>
-      <span class="day-title">다자이후 → 유후인 버스투어</span>
-      <span class="day-date">5/19 화</span>
-    </div>
-    <div class="day-items">
-      <div class="day-item">
-        <span class="em">🚌</span>
-        <div class="content">하카타역 출발 버스투어 🚌</div>
-      </div>
-      <div class="day-item">
-        <span class="em">⛩️</span>
-        <div class="content">🚌 버스 25분 → 다자이후 텐만구 참배 + 우메가에모치</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🔥</span>
-        <div class="content">🚌 버스 1시간 30분 → 가마도지옥 온천 구경</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🌊</span>
-        <div class="content">🚌 버스 10분 → 긴린코 호수 산책</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🌸</span>
-        <div class="content">🚌 유후인 플로럴 빌리지 → 버스 2시간 → 후쿠오카 복귀</div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">진우 차량 픽업</div>
+        <div class="step-detail">광명역에서 픽업 → 인천공항 T2 이동</div>
+        <div class="step-time">10:41 픽업 → 약 11:30 공항 도착</div>
       </div>
     </div>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header">
-      <span class="day-badge">D3</span>
-      <span class="day-title">야나가와 뱃놀이 → 유후인 료칸</span>
-      <span class="day-date">5/20 수</span>
-    </div>
-    <div class="day-items">
-      <div class="day-item">
-        <span class="em">🏨</span>
-        <div class="content">호텔 몬테레이 체크아웃</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🚣</span>
-        <div class="content">🚃 전철 40분 → 야나가와 뱃놀이 (1시간 30분)</div>
-      </div>
-      <div class="day-item">
-        <span class="em">♨️</span>
-        <div class="content">유후인 램프 노 야도 체크인 · 가족탕 예약</div>
-      </div>
-      <div class="day-item">
-        <span class="em">🍱</span>
-        <div class="content">료칸 석식 (가이세키 코스)</div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">고모 합류 👩</div>
+        <div class="step-detail">인천공항 T2에서 합류 · 서울 문정동 출발</div>
+        <div class="step-time">12:00 만남</div>
       </div>
     </div>
-  </div>
-
-  <div class="day-block">
-    <div class="day-header">
-      <span class="day-badge">D4</span>
-      <span class="day-title">귀국</span>
-      <span class="day-date">5/21 목</span>
-    </div>
-    <div class="day-items">
-      <div class="day-item">
-        <span class="em">🌅</span>
-        <div class="content">유후인 램프 노 야도 조식 후 체크아웃</div>
-      </div>
-      <div class="day-item">
-        <span class="em">✈️</span>
-        <div class="content">🚌 버스 1시간 30분 → 후쿠오카 공항<br>✈️ <span class="highlight">11:30</span> 출발 → 인천 T1 <span class="highlight">13:00</span> 도착 (이스타항공)</div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">에어서울 RS727 탑승</div>
+        <div class="step-detail">인천공항 T2 → 후쿠오카</div>
+        <div class="step-time">14:25 출발 → 16:00 도착</div>
       </div>
     </div>
   </div>
